@@ -112,22 +112,4 @@ $_CONFIG = array(
     //'_sessionPath' => "/my/path",
 );
 
-// MODIF PA : sanitize sur les noms
-$_CONFIG['filenameChangeChars'] = array(
-        '(' => "-",
-        ')' => "-",
-        '[' => "-",
-        ']' => "-",
-        '{' => "-",
-        '}' => "-",
-        '"' => "-",
-        '\'' => "-",
-        ' ' => "_",
-        ':' => "."
-);
-if (get_magic_quotes_gpc()) {
-    $_CONFIG['filenameChangeChars']['\\'] = '';
-}
-$_CONFIG['dirnameChangeChars'] = $_CONFIG['filenameChangeChars'];
-
 ?>

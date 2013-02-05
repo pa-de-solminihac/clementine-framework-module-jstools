@@ -137,13 +137,7 @@ class uploader {
             ini_set('session.cookie_domain', $_CONFIG['_sessionDomain']);
         switch ($this->cms) {
             case "drupal": break;
-            // MODIF PA : do not start session if already started
-            // default: session_start(); break;
-            default:
-                if (!session_id()) {
-                    session_start();
-                }
-                break;
+            default: session_start(); break;
         }
 
         // RELOAD DEFAULT CONFIGURATION
@@ -643,9 +637,6 @@ if (!kc_CKEditor && !kc_FCKeditor && !kc_Custom)
     }
 
     protected function get_htaccess() {
-        // MODIF PA : incompatible with some servers configuration
-        return false;
-        /*
         return "<IfModule mod_php4.c>
   php_value engine off
 </IfModule>
@@ -653,7 +644,6 @@ if (!kc_CKEditor && !kc_FCKeditor && !kc_Custom)
   php_value engine off
 </IfModule>
 ";
-         */
     }
 }
 
