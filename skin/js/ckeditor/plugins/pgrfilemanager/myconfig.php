@@ -37,14 +37,16 @@ THE SOFTWARE.
 //i.e /gallery
 // PGRFileManagerConfig::$urlPath = '/userfiles';
 $basepath = realpath(preg_replace('/\/[^\/]*$/', '', __FILE__));
-$basepath = realpath($basepath . '/../../../../../../../../');
+$basepath = realpath($basepath . '/../../../../../../../');
 
 // php < 5.3 compatibility
 // TODO : charger vraiment les overrides... pour l'instant on ne recupere que la valeur du module site...
+// TODO : charger vraiment les overrides... pour l'instant on ne recupere que la valeur du module site...
 $overrides = array('jstools' => 'share', 'site' => 'local');
+$app_path = '../../../../../';
 $config = array();
 foreach ($overrides as $module => $scope) {
-    $filepath = $basepath . '/app/' . $scope . '/' . $module . '/etc/config.ini';
+    $filepath = $app_path . $scope . '/' . $module . '/etc/config.ini';
     if (is_file($filepath)) {
         // php < 5.3 compatibility
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {

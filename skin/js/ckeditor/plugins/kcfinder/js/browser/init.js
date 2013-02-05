@@ -4,9 +4,9 @@
   *
   *      @desc Object initializations
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -25,16 +25,11 @@ browser.init = function() {
     $('#dialog').click(function() {
         return false;
     });
-    $('#alert').unbind();
-    $('#alert').click(function() {
-        return false;
-    });
     this.initOpeners();
     this.initSettings();
     this.initContent();
     this.initToolbar();
     this.initResizer();
-    this.initDropUpload();
 };
 
 browser.checkAgent = function() {
@@ -77,7 +72,7 @@ browser.initOpeners = function() {
             this.opener.CKEditor = null;
     }
 
-    if (!this.opener.CKEditor && !this.opener.FCKEditor && !this.TinyMCE) {
+    if (!this.opener.CKFinder && !this.opener.FCKEditor && !this.TinyMCE) {
         if ((window.opener && window.opener.KCFinder && window.opener.KCFinder.callBack) ||
             (window.parent && window.parent.KCFinder && window.parent.KCFinder.callBack)
         )
@@ -106,20 +101,21 @@ browser.initContent = function() {
     $('div#files').html(this.label("Loading files..."));
     $.ajax({
         type: 'GET',
-        dataType: 'json',
         url: browser.baseGetData('init'),
         async: false,
-        success: function(data) {
-            if (browser.check4errors(data))
-                return;
-            browser.dirWritable = data.dirWritable;
-            $('#folders').html(browser.buildTree(data.tree));
-            browser.setTreeData(data.tree);
+        success: function(xml) {
+            if (browser.errors(xml)) return;
+            var dirWritable = xml.getElementsByTagName('files')[0].getAttribute('dirWritable');
+            browser.dirWritable = (dirWritable == 'yes');
+            var tree = xml.getElementsByTagName('tree')[0].getElementsByTagName('dir')[0];
+            $('#folders').html(browser.buildTree(tree));
+            browser.setTreeData(tree);
             browser.initFolders();
-            browser.files = data.files ? data.files : [];
+            var files = xml.getElementsByTagName('files')[0].getElementsByTagName('file');
+            browser.loadFiles(files);
             browser.orderFiles();
         },
-        error: function() {
+        error: function(request, error) {
             $('div#folders').html(browser.label("Unknown error."));
             $('div#files').html(browser.label("Unknown error."));
         }

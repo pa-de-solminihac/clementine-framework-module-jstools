@@ -44,11 +44,8 @@ $.fn.textbox = function(options)
         if(!$.data(this,"textbox"))
         {
             var $t   = $(this);
-            // MODIF PA : correction des dimensions lors de l'ouverture avec colorbox
-            // var height = this.offsetHeight;
-            // var width  = this.offsetWidth+16;
-            var height = $t.outerHeight();
-            var width  = $t.outerWidth()+16;
+            var height = this.offsetHeight;
+            var width  = this.offsetWidth+16;
 
             $t.addClass("textbox");
 
