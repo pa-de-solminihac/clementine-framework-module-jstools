@@ -1,8 +1,5 @@
 .clementine_crud-form .plupload_disabled {
-    opacity: 0.3 !important;
-    -moz-opacit: 0.3 !important;
-    -ms-filter: "alpha(opacity=30)" !important; /* IE 8 */
-    filter: alpha(opacity=30) !important; /* IE < 8 */
+    opacity: 0.75;
 }
 /* pour IE7 */
 .clementine_crud-form {
