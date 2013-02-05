@@ -31,8 +31,8 @@ foreach ($config as &$section) {
 }
 if (!defined('__CLEMENTINE_CKEDITOR_FILEMANAGER__')) {
 
-    if (is_array($config) && isset($config['jstools']) && isset($config['jstools']['ckeditor_filemanager'])) {
-        define('__CLEMENTINE_CKEDITOR_FILEMANAGER__',             $config['jstools']['ckeditor_filemanager']);
+    if (is_array($config) && isset($config['module_jstools']) && isset($config['module_jstools']['ckeditor_filemanager'])) {
+        define('__CLEMENTINE_CKEDITOR_FILEMANAGER__',             $config['module_jstools']['ckeditor_filemanager']);
     } else {
         define('__CLEMENTINE_CKEDITOR_FILEMANAGER__',             'pgrfilemanager');
     }

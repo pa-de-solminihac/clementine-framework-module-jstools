@@ -71,12 +71,12 @@ foreach ($config as &$section) {
 }
 
 
-if (is_array($config) && isset($config['jstools'])) {
-    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_FILEMAXSIZE__', $config['jstools']['pgrfilemanager_filemaxsize']);
-    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_ALLOWEDEXTENSIONS__', $config['jstools']['pgrfilemanager_allowedextensions']);
-    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEEXTENSIONS__', $config['jstools']['pgrfilemanager_imageextensions']);
-    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEMAXWIDTH__', $config['jstools']['pgrfilemanager_imagemaxwidth']);
-    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEMAXHEIGHT__', $config['jstools']['pgrfilemanager_imagemaxheight']);
+if (is_array($config) && isset($config['module_jstools'])) {
+    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_FILEMAXSIZE__', $config['module_jstools']['pgrfilemanager_filemaxsize']);
+    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_ALLOWEDEXTENSIONS__', $config['module_jstools']['pgrfilemanager_allowedextensions']);
+    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEEXTENSIONS__', $config['module_jstools']['pgrfilemanager_imageextensions']);
+    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEMAXWIDTH__', $config['module_jstools']['pgrfilemanager_imagemaxwidth']);
+    define('__CLEMENTINE_JSTOOLS_CKEDITOR_PGRFILEMANAGER_IMAGEMAXHEIGHT__', $config['module_jstools']['pgrfilemanager_imagemaxheight']);
 }
 
 if (!session_id()) {
