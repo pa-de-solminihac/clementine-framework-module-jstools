@@ -1,3 +1,6 @@
+<?php
+$request = $this->getRequest();
+?>
 <script type="text/javascript">
     // si jQuery est chargé
     if (typeof(jQuery) != "undefined") {
@@ -16,10 +19,9 @@ if (Clementine::$config['module_jstools']['nb_res_datatables']) {
 <?php
 }
                 ?>
-                "aaSorting": [], /* disable initial sort */
                 "sPaginationType": "full_numbers",
                 "oLanguage": {
-                    "sUrl": "<?php echo __WWW_ROOT_JSTOOLS__; ?>/skin/js/jquery.dataTables/locale/<?php echo $request->LANG; ?>.txt"
+                    "sUrl": "<?php echo __WWW_ROOT_JSTOOLS__; ?>/skin/js/jquery.dataTables/locale/<?php echo $request['LANG']; ?>.txt"
                 },
                 "fnDrawCallback": function() {
                     jQuery(this).find('tr').removeClass("alt-row");
