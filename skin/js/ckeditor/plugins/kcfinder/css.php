@@ -4,9 +4,9 @@
   *
   *      @desc Base CSS definitions
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -185,30 +185,17 @@ span.brace.opened, span.brace.closed {
     top: 0;
     left: 0;
     display: none;
-    background: #000;
+    background: #fff;
     z-index: 100;
-    opacity: 0.7;
+    opacity: 0.5;
     filter: alpha(opacity:50);
 }
 
-#dialog, #clipboard, #alert {
+#dialog, #clipboard {
     position: absolute;
     display: none;
     z-index: 101;
     cursor: default;
-}
-
-#dialog .box, #alert {
-    max-width: 350px;
-}
-
-#alert {
-    z-index: 102;
-}
-
-#alert div.message {
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 #clipboard {
@@ -253,5 +240,6 @@ span.brace.opened, span.brace.closed {
     filter: alpha(opacity:0);
 }
 <?php
+
 header("Content-Type: text/css");
 echo text::compressCSS(ob_get_clean());

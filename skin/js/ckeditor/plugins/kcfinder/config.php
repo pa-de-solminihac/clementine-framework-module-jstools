@@ -4,9 +4,9 @@
   *
   *      @desc Base configuration file
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -27,11 +27,9 @@ if (!(isset($_SESSION['auth'])) && count(isset($_SESSION['auth']))) {
 
 $_CONFIG = array(
 
-    // MODIF PA : passe disabled à false
     'disabled' => false,
-    'denyZipDownload' => false,
-    'denyUpdateCheck' => false,
-    'denyExtensionRename' => false,
+    'readonly' => false,
+    'denyZipDownload' => true,
 
     'theme' => "oxygen",
 
@@ -42,24 +40,7 @@ $_CONFIG = array(
     'dirPerms' => 0755,
     'filePerms' => 0644,
 
-    'access' => array(
-
-        'files' => array(
-            'upload' => true,
-            'delete' => true,
-            'copy' => true,
-            'move' => true,
-            'rename' => true
-        ),
-
-        'dirs' => array(
-            'create' => true,
-            'delete' => true,
-            'rename' => true
-        )
-    ),
-
-    'deniedExts' => "exe com msi bat php phps phtml php3 php4 cgi pl",
+    'deniedExts' => "exe com msi bat php cgi pl",
 
     'types' => array(
 
@@ -73,16 +54,6 @@ $_CONFIG = array(
         'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm",
         'image'   =>  "*img",
     ),
-
-    'filenameChangeChars' => array(/*
-        ' ' => "_",
-        ':' => "."
-    */),
-
-    'dirnameChangeChars' => array(/*
-        ' ' => "_",
-        ':' => "."
-    */),
 
     'mime_magic' => "",
 
@@ -101,6 +72,7 @@ $_CONFIG = array(
     'cookiePrefix' => 'KCFINDER_',
 
     // THE FOLLOWING SETTINGS CANNOT BE OVERRIDED WITH SESSION CONFIGURATION
+
     '_check4htaccess' => true,
     //'_tinyMCEPath' => "/tiny_mce",
 
@@ -111,23 +83,5 @@ $_CONFIG = array(
     //'_sessionDomain' => ".mysite.com",
     //'_sessionPath' => "/my/path",
 );
-
-// MODIF PA : sanitize sur les noms
-$_CONFIG['filenameChangeChars'] = array(
-        '(' => "-",
-        ')' => "-",
-        '[' => "-",
-        ']' => "-",
-        '{' => "-",
-        '}' => "-",
-        '"' => "-",
-        '\'' => "-",
-        ' ' => "_",
-        ':' => "."
-);
-if (get_magic_quotes_gpc()) {
-    $_CONFIG['filenameChangeChars']['\\'] = '';
-}
-$_CONFIG['dirnameChangeChars'] = $_CONFIG['filenameChangeChars'];
 
 ?>

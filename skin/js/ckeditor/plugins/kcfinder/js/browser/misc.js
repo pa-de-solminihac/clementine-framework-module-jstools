@@ -2,76 +2,35 @@
 
 /** This file is part of KCFinder project
   *
-  *      @desc Miscellaneous functionality
+  *      @desc Miscellaneous methods
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
   */?>
 
-browser.drag = function(ev, dd) {
-    var top = dd.offsetY,
-        left = dd.offsetX;
-    if (top < 0) top = 0;
-    if (left < 0) left = 0;
-    if (top + $(this).outerHeight() > $(window).height())
-        top = $(window).height() - $(this).outerHeight();
-    if (left + $(this).outerWidth() > $(window).width())
-        left = $(window).width() - $(this).outerWidth();
-    $(this).css({
-        top: top,
-        left: left
-    });
-};
-
 browser.showDialog = function(e) {
-    $('#dialog').css({left: 0, top: 0});
     this.shadow();
-    if ($('#dialog div.box') && !$('#dialog div.title').get(0)) {
-        var html = $('#dialog div.box').html();
-        var title = $('#dialog').data('title') ? $('#dialog').data('title') : "";
-        html = '<div class="title"><span class="close"></span>' + title + '</div>' + html;
-        $('#dialog div.box').html(html);
-        $('#dialog div.title span.close').mousedown(function() {
-            $(this).addClass('clicked');
-        });
-        $('#dialog div.title span.close').mouseup(function() {
-            $(this).removeClass('clicked');
-        });
-        $('#dialog div.title span.close').click(function() {
-            browser.hideDialog();
-            browser.hideAlert();
-        });
-    }
-    $('#dialog').drag(browser.drag, {handle: '#dialog div.title'});
-    $('#dialog').css('display', 'block');
-
     if (e) {
         var left = e.pageX - parseInt($('#dialog').outerWidth() / 2);
         var top = e.pageY - parseInt($('#dialog').outerHeight() / 2);
-        if (left < 0) left = 0;
-        if (top < 0) top = 0;
-        if (($('#dialog').outerWidth() + left) > $(window).width())
-            left = $(window).width() - $('#dialog').outerWidth();
-        if (($('#dialog').outerHeight() + top) > $(window).height())
-            top = $(window).height() - $('#dialog').outerHeight();
-        $('#dialog').css({
-            left: left + 'px',
-            top: top + 'px'
-        });
-    } else
-        $('#dialog').css({
-            left: parseInt(($(window).width() - $('#dialog').outerWidth()) / 2) + 'px',
-            top: parseInt(($(window).height() - $('#dialog').outerHeight()) / 2) + 'px'
-        });
-    $(document).unbind('keydown');
-    $(document).keydown(function(e) {
-        if (e.keyCode == 27)
-            browser.hideDialog();
-    });
+        if (left < 15) left = 15;
+        if (top < 15) top = 15;
+        if (($('#dialog').outerWidth() + left) > $(window).width() - 30)
+            left = $(window).width() - $('#dialog').outerWidth() - 15;
+        if (($('#dialog').outerHeight() + top) > $(window).height() - 30)
+            top = $(window).height() - $('#dialog').outerHeight() - 15;
+        $('#dialog').css('left', left + "px");
+        $('#dialog').css('top', top + "px");
+    } else {
+        $('#dialog').css('left', parseInt(($(window).width() - $('#dialog').outerWidth()) / 2) + 'px');
+        $('#dialog').css('top', parseInt(($(window).height() - $('#dialog').outerHeight()) / 2) + 'px');
+        $('#dialog').css('display', 'block');
+    }
+
 };
 
 browser.hideDialog = function() {
@@ -81,98 +40,6 @@ browser.hideDialog = function() {
     $('#dialog').css('display', 'none');
     $('div.folder > a > span.folder').removeClass('context');
     $('#dialog').html('');
-    $('#dialog').data('title', null);
-    $('#dialog').unbind();
-    $('#dialog').click(function() {
-        return false;
-    });
-    $(document).unbind('keydown');
-    $(document).keydown(function(e) {
-        return !browser.selectAll(e);
-    });
-    browser.hideAlert();
-};
-
-browser.showAlert = function(shadow) {
-    $('#alert').css({left: 0, top: 0});
-    if (typeof shadow == 'undefined')
-        shadow = true;
-    if (shadow)
-        this.shadow();
-    var left = parseInt(($(window).width() - $('#alert').outerWidth()) / 2),
-        top = parseInt(($(window).height() - $('#alert').outerHeight()) / 2);
-    var wheight = $(window).height();
-    if (top < 0)
-        top = 0;
-    $('#alert').css({
-        left: left + 'px',
-        top: top + 'px',
-        display: 'block'
-    });
-    if ($('#alert').outerHeight() > wheight) {
-        $('#alert div.message').css({
-            height: wheight - $('#alert div.title').outerHeight() - $('#alert div.ok').outerHeight() - 20 + 'px'
-        });
-    }
-    $(document).unbind('keydown');
-    $(document).keydown(function(e) {
-        if (e.keyCode == 27) {
-            browser.hideDialog();
-            browser.hideAlert();
-            $(document).unbind('keydown');
-            $(document).keydown(function(e) {
-                return !browser.selectAll(e);
-            });
-        }
-    });
-};
-
-browser.hideAlert = function(shadow) {
-    if (typeof shadow == 'undefined')
-        shadow = true;
-    if (shadow)
-        this.unshadow();
-    $('#alert').css('display', 'none');
-    $('#alert').html('');
-    $('#alert').data('title', null);
-};
-
-browser.alert = function(msg, shadow) {
-    msg = msg.replace(/\r?\n/g, "<br />");
-    var title = $('#alert').data('title') ? $('#alert').data('title') : browser.label("Attention");
-    $('#alert').html('<div class="title"><span class="close"></span>' + title + '</div><div class="message">' + msg + '</div><div class="ok"><button>' + browser.label("OK") + '</button></div>');
-    $('#alert div.ok button').click(function() {
-        browser.hideAlert(shadow);
-    });
-    $('#alert div.title span.close').mousedown(function() {
-        $(this).addClass('clicked');
-    });
-    $('#alert div.title span.close').mouseup(function() {
-        $(this).removeClass('clicked');
-    });
-    $('#alert div.title span.close').click(function() {
-        browser.hideAlert(shadow);
-    });
-    $('#alert').drag(browser.drag, {handle: "#alert div.title"});
-    browser.showAlert(shadow);
-};
-
-browser.confirm = function(question, callBack) {
-    $('#dialog').data('title', browser.label("Question"));
-    $('#dialog').html('<div class="box"><div class="question">' + browser.label(question) + '<div class="buttons"><button>' + browser.label("No") + '</button> <button>' + browser.label("Yes") + '</button></div></div></div>');
-    browser.showDialog();
-    $('#dialog div.buttons button').first().click(function() {
-        browser.hideDialog();
-    });
-    $('#dialog div.buttons button').last().click(function() {
-        if (callBack)
-            callBack(function() {
-                browser.hideDialog();
-            });
-        else
-            browser.hideDialog();
-    });
-    $('#dialog div.buttons button').get(1).focus();
 };
 
 browser.shadow = function() {
@@ -190,25 +57,21 @@ browser.showMenu = function(e) {
         left = $(window).width() - $('#dialog').outerWidth();
     if (($('#dialog').outerHeight() + top) > $(window).height())
         top = $(window).height() - $('#dialog').outerHeight();
-    $('#dialog').css({
-        left: left + 'px',
-        top: top + 'px',
-        display: 'none'
-    });
+    $('#dialog').css('left', left + "px");
+    $('#dialog').css('top', top + "px");
+    $('#dialog').css('display', 'none');
     $('#dialog').fadeIn();
 };
 
-browser.fileNameDialog = function(e, post, inputName, inputValue, url, labels, callBack, selectAll) {
+browser.fileNameDialog = function(e, post, inputName, inputValue, url, labels, callBack) {
     var html = '<form method="post" action="javascript:;">' +
-        '<div class="box">' +
-        '<input name="' + inputName + '" type="text" /><br />' +
+        '<div class="box"><b>' + this.label(labels.title) + '</b><br />' +
+        '<input name="' + inputName + '" value="' + _.htmlValue(inputValue) + '" type="text" /><br />' +
         '<div style="text-align:right">' +
-        '<input type="submit" value="' + _.htmlValue(this.label("OK")) + '" /> ' +
-        '<input type="button" value="' + _.htmlValue(this.label("Cancel")) + '" onclick="browser.hideDialog(); browser.hideAlert(); return false" />' +
+        '<input type="submit" value="' + _.htmlValue(this.label("OK")) + '" />' +
+        '<input type="button" value="' + _.htmlValue(this.label("Cancel")) + '" onclick="browser.hideDialog(); return false" />' +
     '</div></div></form>';
     $('#dialog').html(html);
-    $('#dialog').data('title', this.label(labels.title));
-    $('#dialog input[name="' + inputName + '"]').attr('value', inputValue);
     $('#dialog').unbind();
     $('#dialog').click(function() {
         return false;
@@ -217,33 +80,31 @@ browser.fileNameDialog = function(e, post, inputName, inputValue, url, labels, c
         var name = this.elements[0];
         name.value = $.trim(name.value);
         if (name.value == '') {
-            browser.alert(browser.label(labels.errEmpty), false);
+            alert(browser.label(labels.errEmpty));
             name.focus();
             return;
         } else if (/[\/\\]/g.test(name.value)) {
-            browser.alert(browser.label(labels.errSlash), false);
+            alert(browser.label(labels.errSlash))
             name.focus();
             return;
         } else if (name.value.substr(0, 1) == ".") {
-            browser.alert(browser.label(labels.errDot), false);
+            alert(browser.label(labels.errDot))
             name.focus();
             return;
         }
         eval('post.' + inputName + ' = name.value;');
         $.ajax({
             type: 'POST',
-            dataType: 'json',
             url: url,
             data: post,
             async: false,
-            success: function(data) {
-                if (browser.check4errors(data, false))
-                    return;
-                if (callBack) callBack(data);
+            success: function(xml) {
+                if (browser.errors(xml)) return;
+                if (callBack) callBack(xml);
                 browser.hideDialog();
             },
-            error: function() {
-                browser.alert(browser.label("Unknown error."), false);
+            error: function(request, error) {
+                alert(browser.label("Unknown error."));
             }
         });
         return false;
@@ -253,23 +114,16 @@ browser.fileNameDialog = function(e, post, inputName, inputValue, url, labels, c
     $('#dialog input[type="submit"]').click(function() {
         return $('#dialog form').submit();
     });
-    var field = $('#dialog input[type="text"]');
-    var value = field.attr('value');
-    if (!selectAll && /^(.+)\.[^\.]+$/ .test(value)) {
-        value = value.replace(/^(.+)\.[^\.]+$/, "$1");
-        _.selection(field.get(0), 0, value.length);
-    } else {
-        field.get(0).focus();
-        field.get(0).select();
-    }
+    $('#dialog input[type="text"]').get(0).focus();
+    $('#dialog input[type="text"]').get(0).select();
+    $('#dialog input[type="text"]').keypress(function(e) {
+        if (e.keyCode == 27) browser.hideDialog();
+    });
 };
 
 browser.orderFiles = function(callBack, selected) {
     var order = _.kuki.get('order');
     var desc = (_.kuki.get('orderDesc') == 'on');
-
-    if (!browser.files || !browser.files.sort)
-        browser.files = [];
 
     browser.files = browser.files.sort(function(a, b) {
         var a1, b1, arr;
@@ -281,13 +135,12 @@ browser.orderFiles = function(callBack, selected) {
         } else if (order == 'type') {
             a1 = _.getFileExtension(a.name);
             b1 = _.getFileExtension(b.name);
-        } else if (order == 'size') {
-            a1 = a.size;
-            b1 = b.size;
         } else
             eval('a1 = a.' + order + '.toLowerCase(); b1 = b.' + order + '.toLowerCase();');
 
         if ((order == 'size') || (order == 'date')) {
+            a1 = parseInt(a1 ? a1 : '');
+            b1 = parseInt(b1 ? b1 : '');
             if (a1 < b1) return desc ? 1 : -1;
             if (a1 > b1) return desc ? -1 : 1;
         }
@@ -332,9 +185,7 @@ browser.humanSize = function(size) {
 browser.baseGetData = function(act) {
     var data = 'browse.php?type=' + encodeURIComponent(this.type) + '&lng=' + this.lang;
     if (act)
-        data += "&act=" + act;
-    if (this.cms)
-        data += "&cms=" + this.cms;
+        data += "&act=" + act
     return data;
 };
 
@@ -347,15 +198,15 @@ browser.label = function(index, data) {
     return label;
 };
 
-browser.check4errors = function(data, shadow) {
-    if (!data.error)
+browser.errors = function(xml) {
+    if (!xml.getElementsByTagName('error').length)
         return false;
-    var msg;
-    if (data.error.join)
-        msg = data.error.join("\n");
-    else
-        msg = data.error;
-    browser.alert(msg, shadow);
+    var alertMsg = '';
+    $.each(xml.getElementsByTagName('error'), function(i, error) {
+        alertMsg += browser.xmlData(error.childNodes) + "\n";
+    });
+    alertMsg = alertMsg.substr(0, alertMsg.length - 1);
+    alert(alertMsg);
     return true;
 };
 
@@ -376,8 +227,14 @@ browser.post = function(url, data) {
 };
 
 browser.fadeFiles = function() {
-    $('#files > div').css({
-        opacity: '0.4',
-        filter: 'alpha(opacity:40)'
+    $('#files > div').css('opacity', '0.4');
+    $('#files > div').css('filter', 'alpha(opacity:40)');
+};
+
+browser.xmlData = function(nodes) {
+    var data = '';
+    $.each(nodes, function(i) {
+        data += nodes[i].nodeValue;
     });
+    return data;
 };

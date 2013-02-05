@@ -4,9 +4,9 @@
   *
   *      @desc Text processing helper class
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -27,12 +27,7 @@ class text {
     * @return string */
 
     static function htmlValue($string) {
-        return
-            str_replace('"', "&quot;",
-            str_replace("'", '&#39;',
-            str_replace('<', '&lt;',
-            str_replace('&', "&amp;",
-        $string))));
+        return str_replace('"', "&quot;", $string);
     }
 
   /** Normalize the string for JavaScript string value
@@ -40,12 +35,7 @@ class text {
     * @return string */
 
     static function jsValue($string) {
-        return
-            preg_replace('/\r?\n/', "\\n",
-            str_replace('"', "\\\"",
-            str_replace("'", "\\'",
-            str_replace("\\", "\\\\",
-        $string))));
+        return preg_replace('/\r?\n/', "\\n", str_replace('"', "\\\"", str_replace("'", "\\'", $string)));
     }
 
   /** Normalize the string for XML tag content data

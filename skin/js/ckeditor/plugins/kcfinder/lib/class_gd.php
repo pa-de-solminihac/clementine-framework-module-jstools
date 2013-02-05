@@ -4,9 +4,9 @@
   *
   *      @desc GD extension class
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.21
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
+  * @copyright 2010 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
   *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   *      @link http://kcfinder.sunhater.com
@@ -151,9 +151,7 @@ class gd {
     * @return integer */
 
     public function get_prop_width($resized_height) {
-        $width = intval(($this->width * $resized_height) / $this->height);
-        if (!$width) $width = 1;
-        return $width;
+        return intval(($this->width * $resized_height) / $this->height);
     }
 
   /** Returns calculated proportional height from the given width
@@ -161,9 +159,7 @@ class gd {
     * @return integer */
 
     public function get_prop_height($resized_width) {
-        $height = intval(($this->height * $resized_width) / $this->width);
-        if (!$height) $height = 1;
-        return $height;
+        return intval(($this->height * $resized_width) / $this->width);
     }
 
   /** Returns an array with calculated proportional width & height.
@@ -243,12 +239,10 @@ class gd {
     public function resize_fit($width, $height) {
         if ((!$width && !$height) || (($width == $this->width) && ($height == $this->height)))
             return true;
-        if (!$width || (($height / $width) < ($this->height / $this->width)))
+        if (!$width || (($width / $height) > ($this->width / $this->height)))
             $width = intval(($this->width * $height) / $this->height);
         elseif (!$height || (($width / $height) < ($this->width / $this->height)))
             $height = intval(($this->height * $width) / $this->width);
-        if (!$width) $width = 1;
-        if (!$height) $height = 1;
         return $this->resize($width, $height);
     }
 
