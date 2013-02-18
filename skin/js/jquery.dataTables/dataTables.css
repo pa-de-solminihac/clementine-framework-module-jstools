@@ -49,15 +49,19 @@
 
 .dataTables_wrapper .dataTables_processing {
     position: absolute;
+    top: 26px;
+    bottom: 42px;
     width: 80%;
-    height: 0;
     padding-top: 60px;
     padding-bottom: 30px;
-    margin: 40px 10% 0;
+    margin: 0 10%;
     text-align: center;
-    background: url(loader.gif) no-repeat scroll center 20px white;
+    background-color: white;
+    background-color: rgba(255,255,255,0.9);
+    background-image: url(loader.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
     border: solid #AAA 2px;
     border-radius: 10px;
-    display: table-cell;
-    vertical-align: bottom;
+    text-indent: -99999px;
 }
