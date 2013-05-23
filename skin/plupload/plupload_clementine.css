@@ -19,3 +19,6 @@ div.AnyTime-win {
     overflow: hidden;
     vertical-align: middle;
 }
+.clementine_crud-plupload_container > form {
+    z-index: -1 !important;
+}
