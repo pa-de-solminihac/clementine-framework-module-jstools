@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require('clementine_commons.php');
 ?>
 
