@@ -1,4 +1,6 @@
 RewriteEngine On
+RewriteRule ^js/ckeditor/config.js js/ckeditor/config_js.php [NC,L]
+RewriteRule ^js/ckeditor/plugins/templates/templates/default.js js/ckeditor/templates_js.php [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* ../../../../index.php [L]
